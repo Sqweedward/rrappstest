@@ -4,10 +4,9 @@ import com.rrapps.testproject.dto.AccountDTO;
 import com.rrapps.testproject.entity.AccountEntity;
 import com.rrapps.testproject.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,13 +17,14 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
 
     @Override
-    public ResponseEntity getAccountsByClientId(int idClient) {
+    public List<AccountDTO> getAccountsByClientId(int idClient) throws Exception {
+        List<AccountDTO> accounts = new ArrayList<AccountDTO>();
         try {
-            List<AccountDTO> accounts = accountRepository.findByClientId(idClient).stream().map(this::convertAccountEntityToDTO).collect(Collectors.toList());
-            return new ResponseEntity(accounts, HttpStatus.OK);
+            accounts = accountRepository.findByClientId(idClient).stream().map(this::convertAccountEntityToDTO).collect(Collectors.toList());
         } catch (Exception e) {
-            return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw e;
         }
+        return accounts;
     }
     private AccountDTO convertAccountEntityToDTO(AccountEntity account) {
         return new AccountDTO(account.getId(), account.getNum(), account.getVkd(), account.getBalance(), account.getLastOperDate());

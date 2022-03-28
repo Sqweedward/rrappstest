@@ -1,8 +1,10 @@
 package com.rrapps.testproject.service;
 
-import org.springframework.http.ResponseEntity;
+import com.rrapps.testproject.dto.AccountDTO;
+
+import java.util.List;
 
 public interface AccountService {
 
-    ResponseEntity getAccountsByClientId(int idClient);
+    List<AccountDTO> getAccountsByClientId(int idClient) throws Exception;
 }
