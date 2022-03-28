@@ -7,6 +7,6 @@ BEGIN
     -- interfering with SELECT statements.
     SET NOCOUNT ON;
 
-    SELECT * from accounts where accounts.idClient = @idClient
+SELECT id, idClient, num, vkd, balance, lastOperdate from accounts where accounts.idClient = @idClient
 END
 GO
