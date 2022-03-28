@@ -1,6 +1,7 @@
 package com.rrapps.testproject.controller;
 
 import com.rrapps.testproject.service.AccountService;
+import com.rrapps.testproject.utils.exceptions.UniversalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,12 @@ public class AccountController {
     ResponseEntity getAccountByClientId(@RequestParam int idClient) {
         try {
             return new ResponseEntity(accountService.getAccountsByClientId(idClient), HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println("ERROR in "+this.getClass()+" : ");
+        }
+        catch (UniversalException e) {
+            e.printStackTrace();
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }

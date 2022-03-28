@@ -3,6 +3,7 @@ package com.rrapps.testproject.service;
 import com.rrapps.testproject.dto.AccountDTO;
 import com.rrapps.testproject.entity.AccountEntity;
 import com.rrapps.testproject.repository.AccountRepository;
+import com.rrapps.testproject.utils.exceptions.UniversalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
         try {
             accounts = accountRepository.findByClientId(idClient).stream().map(this::convertAccountEntityToDTO).collect(Collectors.toList());
         } catch (Exception e) {
-            throw e;
+            throw new UniversalException("Internal Error", e.fillInStackTrace(), e.getLocalizedMessage());
         }
         return accounts;
     }
